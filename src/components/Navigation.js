@@ -11,7 +11,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Logout from '../components/Logout';
-
+import Profile from '../components/MenuProfile';
 const useStyles = makeStyles({
     root: {
         width: '100',
@@ -20,7 +20,7 @@ const useStyles = makeStyles({
 
 class Navigation extends Component {
     render() {
-        const { isAuthenticated } = this.props;
+        const { isAuthenticated, user } = this.props;
         return (
             <div>
                 {isAuthenticated ? <NavigationAuth /> : <NavigationNonAuth />}
@@ -41,7 +41,6 @@ function NavigationAuth() {
             <BottomNavigationAction component={Link} to={ROUTES.LANDING} label="About Us" value="About Us" icon={<ContactsIcon />} />
             <BottomNavigationAction label="Favorites" value="favorites" icon={<FavoriteIcon />} />
             <BottomNavigationAction label="Nearby" value="nearby" icon={<LocationOnIcon />} />
-            <BottomNavigationAction component={Logout} label="Log Out" value="logout" icon={<LocationOnIcon />} />
         </BottomNavigation>
     );
 }

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { logoutUser } from "../actions";
-import Button from "@material-ui/core/Button";
+import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 class Logout extends Component {
     handleLogout = () => {
@@ -9,15 +10,10 @@ class Logout extends Component {
         dispatch(logoutUser());
     };
     render() {
-        const { isLoggingOut, logoutError } = this.props;
         return (
-            <Button
-                type="link"
-                variant="contained"
-                color="primary"
-                onClick={this.handleLogout}>
-                Logout
-            </Button>
+            <IconButton onClick={this.handleLogout}>
+                <ExitToAppIcon color="primary" />
+            </IconButton>
         );
     }
 }
