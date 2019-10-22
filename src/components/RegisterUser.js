@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { loginUser } from "../actions";
+import { registerUser } from "../actions";
 import { withStyles } from "@material-ui/styles";
-import { Link } from 'react-router-dom';
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -53,8 +52,8 @@ const styles = () => ({
 });
 
 
-class Login extends Component {
-    state = { email: "", password: "" };
+class Register extends Component {
+    state = { email: "", password: "", confirmPassword: "" };
 
     handleEmailChange = ({ target }) => {
         this.setState({ email: target.value });
@@ -63,21 +62,31 @@ class Login extends Component {
     handlePasswordChange = ({ target }) => {
         this.setState({ password: target.value });
     };
-
+    handleConfirmPassword = ({ target }) => {
+        this.setState({ confirmPassword: target.value });
+    };
     handleSubmit = () => {
         const { dispatch } = this.props;
         const { email, password } = this.state;
         // this.setState({
         //     isLogging: true
         // });
-        dispatch(loginUser(email, password));
+        dispatch(registerUser(email, password));
     };
 
     render() {
-        const { classes, loginError, isAuthenticated, isLoggingIn } = this.props;
+        const { classes, registerError, isAuthenticated, isRegister } = this.props;
+
+        const {
+            email,
+            password,
+            confirmPassword
+        } = this.state;
+
         const isInvalid =
-            this.state.password === '' ||
-            this.state.email === '';
+            email === '' ||
+            password === '' ||
+            password !== confirmPassword;
         if (isAuthenticated) {
             return <Redirect to="/" />;
         } else {
@@ -89,7 +98,7 @@ class Login extends Component {
                         </Avatar>
 
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Sign up
                         </Typography>
                         <TextField
                             variant="outlined"
@@ -110,7 +119,17 @@ class Login extends Component {
                             id="password"
                             onChange={this.handlePasswordChange}
                         />
-                        {loginError && (
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            name="confirmPassword"
+                            label="ConfirmPassword"
+                            type="password"
+                            id="password"
+                            onChange={this.handleConfirmPassword}
+                        />
+                        {registerError && (
                             <Typography component="p" className={classes.errorText}>
                                 Incorrect email or password.
                              </Typography>
@@ -124,14 +143,11 @@ class Login extends Component {
                             onClick={this.handleSubmit}
                             disabled={isInvalid}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
-                        <Typography>
-                            {!isAuthenticated ? <SignUpLink /> : null}
-                        </Typography>
                         <div style={{ marginTop: 10 }}>
                             {
-                                isLoggingIn ?
+                                isRegister ?
                                     <CircularProgress color="secondary" />
                                     : null
                             }
@@ -143,17 +159,13 @@ class Login extends Component {
         }
     }
 }
-const SignUpLink = () => (
-    <p>
-        Don't have an account? <Link to={'/register'}>Sign Up</Link>
-    </p>
-);
+
 function mapStateToProps(state) {
     return {
-        isLoggingIn: state.auth.isLoggingIn,
-        loginError: state.auth.loginError,
+        isRegister: state.auth.isRegister,
+        registerError: state.auth.registerError,
         isAuthenticated: state.auth.isAuthenticated,
     };
 }
 
-export default withStyles(styles)(connect(mapStateToProps)(Login));
+export default withStyles(styles)(connect(mapStateToProps)(Register));
