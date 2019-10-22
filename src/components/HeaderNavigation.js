@@ -8,7 +8,6 @@ import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
@@ -17,7 +16,8 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import { connect } from "react-redux";
 import Profile from '../components/MenuProfile';
 import Logout from '../components/Logout';
-
+import Bagket from '../components/Bagket';
+import LocalGroceryStoreIcon from '@material-ui/icons/LocalGroceryStore';
 const useStyles = makeStyles(theme => ({
     grow: {
         flexGrow: 1,
@@ -164,17 +164,9 @@ function PrimarySearchAppBar() {
         <div className={classes.grow}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
                         BI SHOP
-          </Typography>
+                    </Typography>
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
@@ -190,14 +182,7 @@ function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Profile />
-                        </IconButton>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+                        <Bagket />
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
@@ -206,7 +191,7 @@ function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <Profile />
                         </IconButton>
                     </div>
                     <div className={classes.sectionMobile}>
@@ -227,9 +212,11 @@ function PrimarySearchAppBar() {
         </div>
     );
 }
+
 function mapStateToProps(state) {
     return {
-        user: state.auth.user
+        user: state.auth.user,
+        isAuthenticated: state.auth.isAuthenticated,
     };
 }
 export default connect(mapStateToProps)(PrimarySearchAppBar);
