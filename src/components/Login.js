@@ -11,7 +11,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
 import Container from "@material-ui/core/Container";
-import { makeStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 
 const styles = () => ({
@@ -52,7 +51,7 @@ const styles = () => ({
 
 
 class Login extends Component {
-    state = { email: "", password: "" };
+    state = { email: "", password: "", isLoading: false };
 
     handleEmailChange = ({ target }) => {
         this.setState({ email: target.value });
@@ -65,7 +64,9 @@ class Login extends Component {
     handleSubmit = () => {
         const { dispatch } = this.props;
         const { email, password } = this.state;
-
+        this.setState({
+            isLoading: true
+        });
         dispatch(loginUser(email, password));
     };
 
@@ -122,6 +123,10 @@ class Login extends Component {
                         >
                             Sign In
                         </Button>
+                        <BallBeat
+                            color={'#123abc'}
+                            loading={this.state.isLoading}
+                        />
                     </Paper>
                 </Container>
             );
