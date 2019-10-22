@@ -10,7 +10,24 @@ export const VERIFY_REQUEST = "VERIFY_REQUEST";
 export const VERIFY_SUCCESS = "VERIFY_SUCCESS";
 export const REGISTER_REQUEST = "REGISTER_REQUEST";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAILURE = "REGISTER_FAILURE"
+export const REGISTER_FAILURE = "REGISTER_FAILURE";
+
+const requestRegister = user => {
+    return {
+        type: REGISTER_REQUEST
+    };
+};
+const receiveRegister = user => {
+    return {
+        type: REGISTER_SUCCESS,
+        user
+    };
+};
+const registerError = () => {
+    return {
+        type: REGISTER_FAILURE
+    };
+};
 
 const requestLogin = () => {
     return {
@@ -55,6 +72,20 @@ const verifySuccess = () => {
     };
 };
 
+export const registerUser = (email, passwork) => dispatch => {
+    dispatch(requestRegister());
+    myFirebase
+        .auth()
+        .createUserWithEmailAndPassword(email, passwork)
+        .then(user => {
+            dispatch(requestRegister(user));
+        })
+        .catch(errpr => {
+            alert("Register fail!!!");
+            dispatch(registerError());
+        });
+}
+
 export const loginUser = (email, passwork) => dispatch => {
     dispatch(requestLogin());
     myFirebase
@@ -64,7 +95,7 @@ export const loginUser = (email, passwork) => dispatch => {
             dispatch(requestLogin(user));
         })
         .catch(error => {
-            alert("Login fail!!!")
+            alert("Login fail!!!");
             dispatch(loginError());
         });
 }
@@ -87,6 +118,7 @@ export const verifyAuth = () => dispatch => {
     myFirebase.auth().onAuthStateChanged(user => {
         if (user !== null) {
             dispatch(receiveLogin(user));
+            dispatch(receiveRegister(user));
         }
         dispatch(verifySuccess());
     });
