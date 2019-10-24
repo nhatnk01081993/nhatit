@@ -4,6 +4,7 @@ import { logoutUser } from "../actions";
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
 class Logout extends Component {
     handleLogout = () => {
         const { dispatch } = this.props;
@@ -11,9 +12,9 @@ class Logout extends Component {
     };
     render() {
         return (
-            <IconButton onClick={this.handleLogout} fullWidth={true}>
+            <MenuItem onClick={this.handleLogout} fullWidth={true}>
                 <ExitToAppIcon color="primary" /> <Typography variant="body2" gutterBottom>Log Out</Typography>
-            </IconButton>
+            </MenuItem>
         );
     }
 }
